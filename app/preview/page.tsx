@@ -93,7 +93,9 @@ export default function PreviewPage() {
             <span>·</span>
             <Link href="/chart" style={{ color: 'inherit', textDecoration: 'none' }}>命盘</Link>
             <span>·</span>
-            <Link href="/heming" style={{ color: 'inherit', textDecoration: 'none' }}>合盘</Link>
+<Link href="/heming" style={{ color: 'inherit', textDecoration: 'none' }}>合盘</Link>
+            <span>·</span>
+            <Link href="/bazi" style={{ color: 'inherit', textDecoration: 'none' }}>八字</Link>
           </div>
 
           {/* 时间轴说明 */}

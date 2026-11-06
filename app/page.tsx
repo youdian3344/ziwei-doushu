@@ -489,7 +489,14 @@ export default function HomePage() {
           紫微命盘
         </div>
         <div className="flex items-center gap-1.5 sm:gap-3 flex-shrink-0">
-          <ThemeToggle />
+<ThemeToggle />
+          <motion.button
+            whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }}
+            onClick={() => router.push('/bazi')}
+            className="text-[11px] sm:text-xs px-2.5 sm:px-4 py-1 sm:py-1.5 rounded-full transition-all duration-300"
+            style={{ border: `1px solid ${c.navBorder}`, color: c.textMuted }}>
+            八字
+          </motion.button>
           <motion.button
             whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }}
             onClick={() => router.push('/heming')}
@@ -1074,7 +1081,59 @@ export default function HomePage() {
                   color: c.goldSolid,
                   cursor: 'pointer',
                 }}>
-                开始合盘分析
+开始合盘分析
+              </motion.button>
+            </FadeIn>
+          </div>
+        </div>
+      </section>
+
+      {/* ══ 八字排盘入口 ══════════════════════════════════ */}
+      <section className="relative z-10 px-6 md:px-10 lg:px-14 pb-20">
+        <div className="mx-auto" style={{ maxWidth: '1280px' }}>
+          <div className="rounded-2xl p-10 md:p-14 text-center"
+            style={{
+              background: theme === 'dark' ? 'rgba(255,255,255,0.03)' : 'rgba(255,255,255,0.8)',
+              border: `1px solid ${c.cardBorder}`,
+              boxShadow: c.cardShadow,
+            }}>
+            <FadeIn>
+              <div className="flex items-center justify-center gap-3 mb-6">
+                <div className="h-px w-8" style={{ background: c.goldLine }} />
+                <span className="text-[10px] tracking-[0.5em] uppercase" style={{ color: c.tagText }}>Four Pillars · Bazi</span>
+                <div className="h-px w-8" style={{ background: c.goldLine }} />
+              </div>
+              <h2 className={`grad-text ${theme === 'dark' ? 'grad-text-dark' : 'grad-text-light'} font-bold mb-4 tracking-tight`}
+                style={{ fontSize: 'clamp(26px, 3.5vw, 40px)' }}>
+                八字排盘
+              </h2>
+              <p className="text-sm leading-relaxed mb-8 max-w-lg mx-auto" style={{ color: c.textSecond }}>
+                输入出生年月日时，按节气口径排出四柱八字，<br className="hidden md:block" />
+                给出十神、藏干、纳音、五行旺衰、格局、调候用神与大运流年。
+              </p>
+              <div className="flex justify-center gap-3 flex-wrap mb-6">
+                {['四柱节气换柱', '十神藏干纳音', '五行旺衰量化', '格局与调候用神'].map(item => (
+                  <span key={item} style={{
+                    fontSize: '12px', padding: '5px 14px', borderRadius: '20px',
+                    background: theme === 'dark' ? 'rgba(212,168,67,0.08)' : 'rgba(212,168,67,0.12)',
+                    border: `1px solid ${c.goldLine}`,
+                    color: c.goldSolid,
+                  }}>
+                    {item}
+                  </span>
+                ))}
+              </div>
+              <motion.button
+                whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
+                onClick={() => router.push('/bazi')}
+                className="px-10 py-3 font-medium text-sm tracking-widest rounded-full"
+                style={{
+                  background: theme === 'dark' ? 'rgba(255,255,255,0.08)' : 'rgba(140,100,20,0.1)',
+                  border: `1px solid ${c.goldLine}`,
+                  color: c.goldSolid,
+                  cursor: 'pointer',
+                }}>
+                开始八字排盘
               </motion.button>
             </FadeIn>
           </div>

@@ -38,7 +38,8 @@ export default function ChatPanel({ chart }: ChatPanelProps) {
     const userMsg: Message = { role: 'user', content: text };
     setMessages(prev => [...prev, userMsg]);
     setInput('');
-    setLoading(true);
+setLoading(true);
+    let serverMessage = '';
 
     try {
       const res = await fetch('/api/interpret', {
@@ -47,8 +48,13 @@ export default function ChatPanel({ chart }: ChatPanelProps) {
         body: JSON.stringify({ chart, messages: [...messages, userMsg] }),
       });
 
-      if (res.status === 404) throw new Error('api-missing');
-      if (!res.ok) throw new Error('请求失败');
+if (res.status === 404) throw new Error('api-missing');
+      if (!res.ok) {
+        // 服务端会把「缺哪项配置 / 上游为什么失败」写进 message，直接透出给用户
+        const detail = (await res.json().catch(() => null)) as { message?: string } | null;
+        serverMessage = detail?.message ?? '';
+        throw new Error('请求失败');
+      }
       if (!res.body) throw new Error('无响应流');
 
       const reader = res.body.getReader();
@@ -83,7 +89,9 @@ export default function ChatPanel({ chart }: ChatPanelProps) {
       const missing = e instanceof Error && e.message === 'api-missing';
       setMessages(prev => [...prev, {
         role: 'assistant',
-        content: missing ? '开源版不含 AI 解读接口（/api/interpret），需要你自己实现后才能用，详见 README「快速开始」。排盘本身不需要任何 API Key。' : '解读失败，请检查API配置或稍后重试。',
+        content: missing
+          ? '开源版不含 AI 解读接口（/api/interpret），需要你自己实现后才能用，详见 README「快速开始」。排盘本身不需要任何 API Key。'
+          : serverMessage ? `解读失败：${serverMessage}` : '解读失败，请检查 API 配置或稍后重试。',
       }]);
     } finally {
       setLoading(false);
